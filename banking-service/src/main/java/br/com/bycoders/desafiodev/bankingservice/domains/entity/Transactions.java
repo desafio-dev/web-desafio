@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -25,7 +26,7 @@ public class Transactions {
     private String typeOperation;
 
     @Column(name = "VALUE")
-    private String value;
+    private BigDecimal value;
 
     @Column(name = "DATE")
     private ZonedDateTime date;

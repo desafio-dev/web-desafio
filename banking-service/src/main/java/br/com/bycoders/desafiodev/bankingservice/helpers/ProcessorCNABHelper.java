@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class ProcessorCNABHelper {
 
         return Transactions.builder()
                 .typeOperation(operations_type)
-                .value(value)
+                .value(BigDecimal.valueOf(Integer.parseInt(value)).divide(BigDecimal.valueOf(100)))
                 .cardNumber(card_number)
                 .date(dateTime)
                 .build();

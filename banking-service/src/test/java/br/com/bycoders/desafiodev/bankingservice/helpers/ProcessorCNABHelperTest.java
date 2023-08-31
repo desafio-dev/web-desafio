@@ -11,6 +11,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,9 @@ public class ProcessorCNABHelperTest {
 
             transactionsList.forEach(transaction -> {
                 Assertions.assertEquals(12, transaction.getCardNumber().length());
-                Assertions.assertEquals(10, transaction.getValue().length());
+
+                Assertions.assertTrue(transaction.getValue() instanceof BigDecimal);
+
                 Assertions.assertEquals(1, transaction.getTypeOperation().length());
                 Assertions.assertTrue( transaction.getDate() instanceof ZonedDateTime );
             });
