@@ -55,7 +55,6 @@ public class UploadFileServiceTest {
     public void should_insert_transactions_if_owner_already_exists_in_database() throws IOException {
         ClassPathResource arquivoCnab = new ClassPathResource("CNAB.txt");
         MultipartFile input = new MockMultipartFile("CNAB.txt", arquivoCnab.getInputStream());
-
         OwnerRepository mockOwnerRepository = Mockito.mock(OwnerRepository.class);
         TransactionRepository mockTransactionRepository = Mockito.mock(TransactionRepository.class);
 

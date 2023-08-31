@@ -12,6 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.DateTimeException;
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -68,5 +69,13 @@ public class ExceptionApplicationAdviceTest {
         ErrorResponse response = advice.errorHandlerBadRequest(exception, webRequest);
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.errorCode());
         assertEquals("Null pointer exception", response.message());
+    }
+
+    @Test
+    public void testHandleDateTimeException() {
+        DateTimeException exception = new DateTimeException("Invalid value for MonthOfYear (valid values 1 - 12): 90");
+        ErrorResponse response = advice.errorHandlerBadRequest(exception, webRequest);
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.errorCode());
+        assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 90", response.message());
     }
 }

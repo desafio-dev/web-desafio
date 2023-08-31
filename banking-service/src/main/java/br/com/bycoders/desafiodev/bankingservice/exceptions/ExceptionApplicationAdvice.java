@@ -10,6 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.DateTimeException;
 import java.time.ZonedDateTime;
 
 @RestControllerAdvice
@@ -49,5 +50,13 @@ public class ExceptionApplicationAdvice extends ResponseEntityExceptionHandler {
         ErrorResponse errorHandler = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), ZonedDateTime.now());
         return errorHandler;
     }
+
+    @ExceptionHandler(value = {DateTimeException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse errorHandlerBadRequest(DateTimeException ex, WebRequest request) {
+        ErrorResponse errorHandler = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), ZonedDateTime.now());
+        return errorHandler;
+    }
+
 
 }
