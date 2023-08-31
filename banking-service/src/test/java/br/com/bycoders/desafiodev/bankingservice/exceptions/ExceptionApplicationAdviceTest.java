@@ -1,6 +1,8 @@
 package br.com.bycoders.desafiodev.bankingservice.exceptions;
 
 import br.com.bycoders.desafiodev.bankingservice.domains.records.ErrorResponse;
+import br.com.bycoders.desafiodev.bankingservice.exceptions.custom.OwnerNotFoundException;
+import br.com.bycoders.desafiodev.bankingservice.exceptions.custom.TransactionNotFoundException;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,5 +79,21 @@ public class ExceptionApplicationAdviceTest {
         ErrorResponse response = advice.errorHandlerBadRequest(exception, webRequest);
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.errorCode());
         assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 90", response.message());
+    }
+
+    @Test
+    public void testHandleOwnerNotFoundException() {
+        OwnerNotFoundException exception = new OwnerNotFoundException("Owner weren't founded");
+        ErrorResponse response = advice.errorHandlerBadRequest(exception, webRequest);
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.errorCode());
+        assertEquals("Owner weren't founded", response.message());
+    }
+
+    @Test
+    public void testHandleTransactionNotFoundException() {
+        TransactionNotFoundException exception = new TransactionNotFoundException("Transaction weren't founded");
+        ErrorResponse response = advice.errorHandlerBadRequest(exception, webRequest);
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.errorCode());
+        assertEquals("Transaction weren't founded", response.message());
     }
 }

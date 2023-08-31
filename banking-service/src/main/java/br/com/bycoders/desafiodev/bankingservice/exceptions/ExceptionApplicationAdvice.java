@@ -1,6 +1,8 @@
 package br.com.bycoders.desafiodev.bankingservice.exceptions;
 
 import br.com.bycoders.desafiodev.bankingservice.domains.records.ErrorResponse;
+import br.com.bycoders.desafiodev.bankingservice.exceptions.custom.OwnerNotFoundException;
+import br.com.bycoders.desafiodev.bankingservice.exceptions.custom.TransactionNotFoundException;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +57,20 @@ public class ExceptionApplicationAdvice extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse errorHandlerBadRequest(DateTimeException ex, WebRequest request) {
         ErrorResponse errorHandler = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), ZonedDateTime.now());
+        return errorHandler;
+    }
+
+    @ExceptionHandler(value = {OwnerNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse errorHandlerBadRequest(OwnerNotFoundException ex, WebRequest request) {
+        ErrorResponse errorHandler = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), ZonedDateTime.now());
+        return errorHandler;
+    }
+
+    @ExceptionHandler(value = {TransactionNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse errorHandlerBadRequest(TransactionNotFoundException ex, WebRequest request) {
+        ErrorResponse errorHandler = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), ZonedDateTime.now());
         return errorHandler;
     }
 

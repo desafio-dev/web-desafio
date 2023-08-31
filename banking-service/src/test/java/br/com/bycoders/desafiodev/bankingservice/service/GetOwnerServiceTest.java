@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class GetOwnerServiceTest {
 
@@ -29,6 +30,21 @@ public class GetOwnerServiceTest {
 
         Assertions.assertNotNull(owners);
         Mockito.verify(mockOwnerRepository, Mockito.atLeastOnce()).findAll();
+
+    }
+
+    @Test
+    public void should_return_a_owner_by_id() {
+        OwnerRepository mockOwnerRepository = Mockito.mock(OwnerRepository.class);
+        TransactionRepository mockTransactionRepository = Mockito.mock(TransactionRepository.class);
+        Owner owner = getDefaultOwner();
+        Mockito.when( mockOwnerRepository.findById(ArgumentMatchers.any(Long.class)) ).thenReturn(Optional.ofNullable(owner));
+
+        GetOwnerService getOwnerService = new GetOwnerServiceImpl(mockOwnerRepository, mockTransactionRepository);
+        Optional<Owner> ownerById = getOwnerService.getOwnerById(2L);
+
+        Assertions.assertNotNull(ownerById);
+        Mockito.verify(mockOwnerRepository, Mockito.atLeastOnce()).findById(ArgumentMatchers.any(Long.class));
 
     }
 
@@ -56,6 +72,33 @@ public class GetOwnerServiceTest {
 
         Assertions.assertNotNull(owners);
         Mockito.verify(mockTransactionRepository, Mockito.atLeastOnce()).findByOwnerId(2L);
+
+    }
+
+    @Test
+    public void should_return_a_transaction_by_id() {
+        OwnerRepository mockOwnerRepository = Mockito.mock(OwnerRepository.class);
+        TransactionRepository mockTransactionRepository = Mockito.mock(TransactionRepository.class);
+
+        Mockito.when( mockTransactionRepository.findById(ArgumentMatchers.any(Long.class))).thenReturn(
+                Optional.ofNullable(Transactions.builder()
+                        .id(1L)
+                        .date(ZonedDateTime.now())
+                        .typeOperation("5")
+                        .value(BigDecimal.valueOf(100))
+                        .cardNumber("4753****3153")
+                        .owner(Owner.builder()
+                                .id(2L)
+                                .cpf("11111111111")
+                                .storeName("devexpress store")
+                                .ownerName("salomao").build())
+                        .build()));
+
+        GetOwnerService getOwnerService = new GetOwnerServiceImpl(mockOwnerRepository, mockTransactionRepository);
+        Optional<Transactions> owners = getOwnerService.getTransactionsOwnerById(1L);
+
+        Assertions.assertNotNull(owners);
+        Mockito.verify(mockTransactionRepository, Mockito.atLeastOnce()).findById(1L);
 
     }
 

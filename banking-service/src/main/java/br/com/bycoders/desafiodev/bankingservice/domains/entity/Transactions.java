@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
@@ -16,7 +18,7 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TRANSACTIONS")
-public class Transactions {
+public class Transactions extends RepresentationModel<Transactions> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

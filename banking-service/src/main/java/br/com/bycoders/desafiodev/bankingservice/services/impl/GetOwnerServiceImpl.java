@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GetOwnerServiceImpl implements GetOwnerService {
@@ -32,6 +33,16 @@ public class GetOwnerServiceImpl implements GetOwnerService {
     @Override
     public List<Transactions> getTransactionsOwner(Long id) {
         return transactionRepository.findByOwnerId(id);
+    }
+
+    @Override
+    public Optional<Owner> getOwnerById(Long id) {
+        return ownerRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Transactions> getTransactionsOwnerById(Long id) {
+        return transactionRepository.findById(id);
     }
 
 }

@@ -2,7 +2,9 @@ package br.com.bycoders.desafiodev.bankingservice.domains.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "OWNER")
-public class Owner {
+public class Owner extends RepresentationModel<Owner> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
