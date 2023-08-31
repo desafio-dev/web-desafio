@@ -35,8 +35,9 @@ public class ProcessorCNABHelper {
 
     private static Owner createOwner(String row) {
         String cpf = row.substring(19, 30);
-        String owner = row.substring(48, 62);
-        return Owner.builder().ownerName(owner).cpf(cpf).build();
+        String ownerName = row.substring(48, 62);
+        String storeName = row.substring(62, 80);
+        return Owner.builder().ownerName(ownerName.trim()).cpf(cpf).storeName(storeName.trim()).build();
     }
 
     private static void validateOwnerAndHandleTransactionIntoHashMap(Map<Owner, List<Transactions>> operations, Owner ownerToSave, String row) {

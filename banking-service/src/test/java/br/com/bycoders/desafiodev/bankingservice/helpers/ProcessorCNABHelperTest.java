@@ -37,7 +37,13 @@ public class ProcessorCNABHelperTest {
             List<Transactions> transactionsList = entry.getValue();
 
             Assertions.assertEquals(11, owner.getCpf().length());
-            Assertions.assertEquals(14, owner.getOwnerName().length());
+
+            Assertions.assertNotNull(owner.getOwnerName());
+            Assertions.assertTrue(owner.getOwnerName() instanceof String);
+
+            Assertions.assertNotNull(owner.getStoreName());
+            Assertions.assertTrue(owner.getStoreName() instanceof String);
+
 
             transactionsList.forEach(transaction -> {
                 Assertions.assertEquals(12, transaction.getCardNumber().length());

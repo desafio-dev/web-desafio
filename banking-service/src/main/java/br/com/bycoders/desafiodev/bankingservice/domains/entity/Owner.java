@@ -21,4 +21,7 @@ public class Owner {
     @Column(nullable = false, name = "CPF", unique = true)
     private String cpf;
 
+    @Column(nullable = false, name = "STORE_NAME")
+    private String storeName;
+
 }
