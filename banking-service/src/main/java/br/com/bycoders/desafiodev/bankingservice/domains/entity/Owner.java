@@ -3,6 +3,9 @@ package br.com.bycoders.desafiodev.bankingservice.domains.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -24,4 +27,6 @@ public class Owner {
     @Column(nullable = false, name = "STORE_NAME")
     private String storeName;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Transactions> transactionsList = new ArrayList<>();
 }

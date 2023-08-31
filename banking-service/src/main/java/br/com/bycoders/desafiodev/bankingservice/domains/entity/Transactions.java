@@ -2,7 +2,6 @@ package br.com.bycoders.desafiodev.bankingservice.domains.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.transaction.UserTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,4 +32,8 @@ public class Transactions {
 
     @Column(name = "CARD_NUMBER")
     private String cardNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "OWNER_ID")
+    private Owner owner;
 }

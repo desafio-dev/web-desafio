@@ -19,7 +19,6 @@ import java.util.Objects;
 public class UploadFileServiceImpl implements UploadFileService {
 
     private final OwnerRepository ownerRepository;
-
     private final TransactionRepository transactionRepository;
 
     @Autowired
@@ -39,12 +38,14 @@ public class UploadFileServiceImpl implements UploadFileService {
 
                     Owner owner = entry.getKey();
                     List<Transactions> transactionsList = entry.getValue();
+                    Owner ownerFound = ownerRepository.findByCpf(owner.getCpf());
 
-
-                    if ( ownerAlreadyExists(owner) ) {
+                    if (Objects.nonNull(ownerFound)) {
+                        transactionsList.forEach(transactions1 -> transactions1.setOwner(ownerFound));
                         transactionRepository.saveAll(transactionsList);
                     } else {
-                        ownerRepository.save(owner);
+                        Owner ownerSaved = ownerRepository.save(owner);
+                        transactionsList.forEach(transactions1 -> transactions1.setOwner(ownerSaved));
                         transactionRepository.saveAll(transactionsList);
                     }
 
@@ -52,10 +53,5 @@ public class UploadFileServiceImpl implements UploadFileService {
 
         return transactions;
 
-    }
-
-    private boolean ownerAlreadyExists(Owner owner) {
-        Owner ownerFound = ownerRepository.findByCpf(owner.getCpf());
-        return Objects.nonNull(ownerFound) && Objects.nonNull(ownerFound.getCpf()) ;
     }
 }
