@@ -27,6 +27,7 @@ public class Owner {
     @Column(nullable = false, name = "STORE_NAME")
     private String storeName;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transaction_list_id", referencedColumnName = "id")
     private List<Transactions> transactionsList = new ArrayList<>();
 }

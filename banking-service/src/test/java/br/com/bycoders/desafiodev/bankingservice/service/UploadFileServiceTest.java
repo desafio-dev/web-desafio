@@ -25,9 +25,6 @@ import java.util.Map;
 @DirtiesContext
 public class UploadFileServiceTest {
 
-    @InjectMocks
-    private static UploadFileServiceImpl uploadFileService;
-
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);

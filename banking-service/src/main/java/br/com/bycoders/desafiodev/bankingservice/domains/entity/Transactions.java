@@ -35,6 +35,5 @@ public class Transactions {
     private String cardNumber;
 
     @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
     private Owner owner;
 }
