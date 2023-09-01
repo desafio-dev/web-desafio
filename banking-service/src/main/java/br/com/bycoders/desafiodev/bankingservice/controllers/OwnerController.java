@@ -29,6 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/owners")
 @Tag(name = "Owner Controller", description = "")
+@CrossOrigin(origins = "*")
 public class OwnerController {
 
     @Autowired

@@ -21,12 +21,14 @@ import java.util.Map;
 @RequestMapping("/upload-file")
 @Validated
 @Tag(name = "Upload File CNAB", description = "")
+@CrossOrigin(origins = "*")
 public class UploadFileController {
 
     @Autowired
     private UploadFileService uploadFileService;
 
     @PostMapping
+    @CrossOrigin(origins = "*")
     @Operation(summary = "This endpoint is resposible to receive the file thoughtout the client and persiste her into database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "File uploaded successfully"),
