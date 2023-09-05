@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Upload, Button, message} from 'antd';
+import React from 'react';
+import {Button, message, Upload} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 import axios from 'axios';
-import {useRecoilState, useSetRecoilState} from "recoil";
-import {OwnerList, LoadOwnerList} from "../../atoms/Owner";
+import {useRecoilState} from "recoil";
+import {LoadOwnerList} from "../../atoms/Owner";
 
 export default function UploadFile() {
 

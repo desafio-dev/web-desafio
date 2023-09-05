@@ -8,8 +8,11 @@ export interface OwnerInterface {
 
 export interface Transaction {
     id: number,
-    type_transaction: number,
-    card_number: string,
+    typeOperation: number,
+    cardNumber: string,
+    descriptionOperation: string,
+    date: string,
+    type: number,
     value: number
 }
 

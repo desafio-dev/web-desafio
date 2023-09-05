@@ -24,3 +24,5 @@ yarn-error.log*
 .vscode
 data
 package-lock.json
+../banking-service/data
+../banking-service
