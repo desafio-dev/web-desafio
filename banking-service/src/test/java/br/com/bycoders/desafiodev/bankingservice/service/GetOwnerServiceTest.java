@@ -2,6 +2,7 @@ package br.com.bycoders.desafiodev.bankingservice.service;
 
 import br.com.bycoders.desafiodev.bankingservice.domains.entity.Owner;
 import br.com.bycoders.desafiodev.bankingservice.domains.entity.Transactions;
+import br.com.bycoders.desafiodev.bankingservice.domains.enums.TypeOperationEnum;
 import br.com.bycoders.desafiodev.bankingservice.repositories.OwnerRepository;
 import br.com.bycoders.desafiodev.bankingservice.repositories.TransactionRepository;
 import br.com.bycoders.desafiodev.bankingservice.services.GetOwnerService;
@@ -83,6 +84,9 @@ public class GetOwnerServiceTest {
         Mockito.when( mockTransactionRepository.findById(ArgumentMatchers.any(Long.class))).thenReturn(
                 Optional.ofNullable(Transactions.builder()
                         .id(1L)
+                                .descriptionOperation(
+                                        TypeOperationEnum.getOperationByTypeOperation(Integer.parseInt("5")).getDescription()
+                                )
                         .date(ZonedDateTime.now())
                         .typeOperation("5")
                         .value(BigDecimal.valueOf(100))
@@ -99,6 +103,12 @@ public class GetOwnerServiceTest {
 
         Assertions.assertNotNull(owners);
         Mockito.verify(mockTransactionRepository, Mockito.atLeastOnce()).findById(1L);
+
+        Assertions.assertTrue(owners.isPresent());
+        Assertions.assertNotNull(owners.get());
+        Transactions transactions = owners.get();
+        Assertions.assertNotNull(transactions.getDescriptionOperation());
+        Assertions.assertEquals(transactions.getDescriptionOperation(), TypeOperationEnum.REEBIMENTO_EMPRESTIMO.getDescription());
 
     }
 

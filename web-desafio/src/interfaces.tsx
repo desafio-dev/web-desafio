@@ -1,5 +1,5 @@
 
-export interface Owner {
+export interface OwnerInterface {
     id: number,
     ownerName: string,
     cpf: string,
@@ -7,8 +7,9 @@ export interface Owner {
 }
 
 export interface Transaction {
+    id: number,
     type_transaction: number,
-    card_number: number,
+    card_number: string,
     value: number
 }
 

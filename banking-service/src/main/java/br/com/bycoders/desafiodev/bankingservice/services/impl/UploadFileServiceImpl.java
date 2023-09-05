@@ -2,6 +2,7 @@ package br.com.bycoders.desafiodev.bankingservice.services.impl;
 
 import br.com.bycoders.desafiodev.bankingservice.domains.entity.Owner;
 import br.com.bycoders.desafiodev.bankingservice.domains.entity.Transactions;
+import br.com.bycoders.desafiodev.bankingservice.domains.enums.TypeOperationEnum;
 import br.com.bycoders.desafiodev.bankingservice.helpers.ProcessorCNABHelper;
 import br.com.bycoders.desafiodev.bankingservice.repositories.OwnerRepository;
 import br.com.bycoders.desafiodev.bankingservice.repositories.TransactionRepository;
@@ -40,12 +41,16 @@ public class UploadFileServiceImpl implements UploadFileService {
                     List<Transactions> transactionsList = entry.getValue();
                     Owner ownerFound = ownerRepository.findByCpf(owner.getCpf());
 
+
+
                     if (Objects.nonNull(ownerFound)) {
-                        transactionsList.forEach(transactions1 -> transactions1.setOwner(ownerFound));
+                        transactionsList.forEach(UploadFileServiceImpl::setDescriptionOperation);
                         transactionRepository.saveAll(transactionsList);
                     } else {
                         Owner ownerSaved = ownerRepository.save(owner);
-                        transactionsList.forEach(transactions1 -> transactions1.setOwner(ownerSaved));
+                        transactionsList.forEach(transactions1 -> {
+                            setOwnerAndDescriptionOperation(transactions1, ownerSaved);
+                        });
                         transactionRepository.saveAll(transactionsList);
                     }
 
@@ -53,5 +58,16 @@ public class UploadFileServiceImpl implements UploadFileService {
 
         return transactions;
 
+    }
+
+    private static void setOwnerAndDescriptionOperation(Transactions transactions1, Owner ownerFound) {
+        setDescriptionOperation(transactions1);
+        transactions1.setOwner(ownerFound);
+    }
+
+    private static void setDescriptionOperation(Transactions transactions1) {
+        transactions1
+                .setDescriptionOperation(
+                        TypeOperationEnum.getOperationByTypeOperation(Integer.parseInt(transactions1.getTypeOperation())).getDescription());
     }
 }

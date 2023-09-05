@@ -27,6 +27,9 @@ public class Transactions extends RepresentationModel<Transactions> implements S
     @Column(name = "TYPE_OPERATION")
     private String typeOperation;
 
+    @Column(name = "DESCRIPTION_OPERATION")
+    private String descriptionOperation;
+
     @Column(name = "VALUE")
     private BigDecimal value;
 

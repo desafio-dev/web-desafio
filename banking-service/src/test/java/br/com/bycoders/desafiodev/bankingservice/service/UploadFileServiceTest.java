@@ -2,6 +2,7 @@ package br.com.bycoders.desafiodev.bankingservice.service;
 
 import br.com.bycoders.desafiodev.bankingservice.domains.entity.Owner;
 import br.com.bycoders.desafiodev.bankingservice.domains.entity.Transactions;
+import br.com.bycoders.desafiodev.bankingservice.domains.enums.TypeOperationEnum;
 import br.com.bycoders.desafiodev.bankingservice.repositories.OwnerRepository;
 import br.com.bycoders.desafiodev.bankingservice.repositories.TransactionRepository;
 import br.com.bycoders.desafiodev.bankingservice.services.UploadFileService;
@@ -67,6 +68,16 @@ public class UploadFileServiceTest {
         Assertions.assertNotNull(transactions);
         Mockito.verify(mockOwnerRepository, Mockito.atLeastOnce()).save(ArgumentMatchers.any());
         Mockito.verify(mockTransactionRepository, Mockito.atLeastOnce()).saveAll(ArgumentMatchers.any());
+
+        transactions.entrySet().forEach((transaction) -> {
+            List<Transactions> transactionsList = transaction.getValue();
+
+            transactionsList.forEach(item -> {
+                Assertions.assertNotNull(item.getDescriptionOperation());
+                Assertions.assertEquals(item.getDescriptionOperation(), TypeOperationEnum.getOperationByTypeOperation(Integer.parseInt(item.getTypeOperation())).getDescription());
+            });
+        });
+
     }
 
 }
