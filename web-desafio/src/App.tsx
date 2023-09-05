@@ -1,12 +1,12 @@
-import React from 'react';
-import UploadFile from './components/uploadFile';
+import UploadFile from "./components/uploadFile";
+import Owner from "./components/owner";
 
-function App() {
-  return (
-    <div>
-        <UploadFile  />
-    </div>
-  );
+export default function App() {
+    return (
+        <>
+            <UploadFile/>
+            <Owner />
+        </>
+
+    );
 }
-
-export default App;

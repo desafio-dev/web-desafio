@@ -1,94 +1,44 @@
-import { useState } from 'react'
-import { useForm } from "react-hook-form";
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import fs from 'fs'
-import axios from 'axios'
-
-import './styles.css'
-import Owner from '../owner';
-
+import React, {useState} from 'react';
+import {Upload, Button, message} from 'antd';
+import {UploadOutlined} from '@ant-design/icons';
+import axios from 'axios';
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {OwnerList, LoadOwnerList} from "../../atoms/Owner";
 
 export default function UploadFile() {
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File>();
+    const [loadOwnerList, setLoadOwnerList] = useRecoilState(LoadOwnerList);
 
-  const { register, handleSubmit  } = useForm();
+    const handleFileChange = (info: any) => {
+        if (info.file.status === 'done') {
+            message.success('O arquivo foi enviado com sucesso.');
+        } else if (info.file.status === 'error') {
+            message.error('Erro ao enviar o arquivo.');
+        }
+    };
 
-  function onSubmit() {
-    if(selectedFile) {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
+    const customRequest = async ({file, onSuccess, onError}: any) => {
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const response = await axios.post('http://localhost:8080/upload-file', formData);
+            onSuccess(response, file);
+            setLoadOwnerList({ load: true });
+        } catch (error) {
+            setLoadOwnerList({ load: false });
+            onError('Erro ao enviar o arquivo', error);
+        }
+    };
 
-      axios({
-        method: 'post',
-        url: 'http://localhost:8080/upload-file',
-        data: formData,
-        headers: {
-          'Content-Type': `multipart/form-data;`,
-        },
-      })
-        .then((response) => {
-          console.log('Resposta:', response.data);
-        })
-        .catch((error) => {
-          console.error('Erro:', error);
-        });
-    }
-  }
-
-  const handleDragEnter = (e: any) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: any) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    handleFile(file);
-  };
-
-  const handleFileInput = (e: any) => {
-    const file = e.target.files[0];
-    handleFile(file);
-  };
-
-  const handleFile = (file: any) => {
-    console.log(file);
-    setSelectedFile(file);
-  };
-  return (
-    <>
-    
-    <div
-    className={`drag-drop-container ${isDragging ? 'dragging' : ''}`}
-      onDragEnter={handleDragEnter}
-      onDragOver={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-    >
-      {selectedFile ? (
-        <div className="selected-file-info">
-          <p>{ selectedFile.name }</p>
-          <button onClick={onSubmit} className="blue-gradient-button">upload</button>
+    return (
+        <div>
+            <Upload
+                customRequest={customRequest}
+                onChange={handleFileChange}
+                accept=".txt"
+            >
+                <Button icon={<UploadOutlined/>}>Carregar Documento</Button>
+            </Upload>
         </div>
-      ) : (
-        <>
-          <label htmlFor="file-input" className="file-label">
-            {isDragging ? 'Solte o Arquivo Aqui' : 'Arraste e Solte para Selecionar um Arquivo'}
-          </label> 
-        </>
-      )}
-    </div>
-
-    <Owner/>
-
-    </>
-  );
+    );
 }
