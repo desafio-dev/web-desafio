@@ -2,10 +2,10 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import React, {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import {Alert, Button, Card, List, Modal, Space, Typography} from 'antd';
-import {LoadOwnerList, OwnerListAtom, OwnerTransactionList} from '../../atoms/Owner';
+import {OwnerListAtom, OwnerTransactionList} from '../../atoms/Owner';
 import {OwnerInterface} from "../../interfaces";
 
-import {MinusCircleFilled, PlusCircleFilled, PlusOutlined} from '@ant-design/icons';
+import {MinusCircleFilled, PlusCircleFilled} from '@ant-design/icons';
 
 import { formatDate } from '../../utils'
 
@@ -20,7 +20,6 @@ export default function Owner() {
     const setOwnerList = useSetRecoilState(OwnerListAtom);
     const [currentOwner, setCurrentOwner] = useState<OwnerInterface>();
     const ownerList = useRecoilValue(OwnerListAtom);
-    const loadOwnerList = useRecoilValue(LoadOwnerList);
     const [showError, setShowError] = useState<ShowError>({isError: true, message: ''});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,7 +48,7 @@ export default function Owner() {
 
     useEffect(() => {
         handleOwnerList();
-    }, [loadOwnerList]);
+    }, []);
 
     function handleResponseOwnerList(response: AxiosResponse) {
         setOwnerList(response.data);
