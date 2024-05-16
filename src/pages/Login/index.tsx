@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, notification } from 'antd';
+import axios from 'axios'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -10,14 +11,30 @@ const Login: React.FC = () => {
 
   const [loading, setLoading] = useState(false)
 
-  const onFinish = (values: any) => {
-    notification.success({
-      message: 'Usuário logado com sucesso!',
-    });
+  const onFinish = async (values: any) => {
+    
 
-    setLoading(false)
-    navigate("/home")
+    setLoading(true)
+    await axios.post("http://localhost:8080/login", {
+      username: values.username,
+      password: values.password
+    }).then((response) => {
+      const { accessToken } = response.data
+      localStorage.setItem("token", accessToken)
 
+      notification.success({
+        message: 'Usuário logado com sucesso!',
+      });
+
+      setLoading(false)
+      navigate("/home")
+    })
+    .catch((err) => {
+      setLoading(false)
+      notification.error({
+        message: 'Usuário ou senha inválido',
+      });
+    })
   };
 
 

@@ -15,6 +15,19 @@ interface ShowError {
     message: string
 }
 
+axios.interceptors.request.use(
+    config => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    error => {
+      return Promise.reject(error);
+    }
+  );
+
 export default function Owner() {
     const [transactionList, setTransactionList] = useRecoilState(OwnerTransactionList);
     const setOwnerList = useSetRecoilState(OwnerListAtom);
@@ -31,7 +44,7 @@ export default function Owner() {
     const showModal = (item: OwnerInterface) => {
         setCurrentOwner(item);
         const {id} = item;
-        axios.get("http://localhost:8080/owners/transaction/" + id).then(handleResponseTransactionList).catch((reason) => {
+        axios.get("http://localhost:8080/owners/transaction/" + id, ).then(handleResponseTransactionList).catch((reason) => {
             setShowError({isError: !showError, message: reason.response.data.message})
         });
 
