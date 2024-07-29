@@ -1,22 +1,28 @@
 import { useState } from "react";
-import { Layout, Menu, Avatar, Typography } from "antd";
+import { Layout, Menu, Avatar, Typography, Button } from "antd";
 import {
+  LogoutOutlined,
   UserOutlined
 } from "@ant-design/icons";
 import { menuItems } from "./menu.config";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 const { Title, Text } = Typography;
 
 const Container = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+navigate("/")
+  }
   
-
   const [selectedKey, setSelectedKey] = useState("1");
 
   return (
@@ -36,7 +42,7 @@ const Container = () => {
               <Title level={4} style={{ color: "white", margin: "16px 0 0 0" }}>
                 Nome do Usuário
               </Title>
-              <Text style={{ color: "white" }}>usuário@exemplo.com</Text>
+              <Button type="primary" onClick={handleLogout}> <LogoutOutlined /> Sair</Button>
             </>
           )}
         </div>

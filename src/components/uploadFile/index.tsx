@@ -21,7 +21,7 @@ export default function UploadFile() {
         try {
             const formData = new FormData();
             formData.append('file', file);
-            const response = await axios.post('http://localhost:8080/upload-file', formData);
+            const response = await axios.post('http://localhost:7005/upload-file', formData);
             onSuccess(response, file);
             setLoadOwnerList({ load: true });
         } catch (error) {

@@ -1,35 +1,16 @@
 
 import {
-    UserOutlined,
     HomeOutlined,
-    SettingOutlined,
     LogoutOutlined,
   } from "@ant-design/icons";
 import HomeContent from "../contents/HomeContent";
+import { Navigate } from "react-router-dom";
 
 export const menuItems = [
     {
       key: "1",
       icon: <HomeOutlined />,
-      label: "Home",
+      label: "Transações",
       content: <HomeContent />,
-    },
-    {
-      key: "2",
-      icon: <UserOutlined />,
-      label: "Perfil",
-      content: "Conteúdo do Perfil",
-    },
-    {
-      key: "3",
-      icon: <SettingOutlined />,
-      label: "Configurações",
-      content: "Conteúdo das Configurações",
-    },
-    {
-      key: "4",
-      icon: <LogoutOutlined />,
-      label: "Sair",
-      onclick: () => {}
-    },
+    }
   ];
