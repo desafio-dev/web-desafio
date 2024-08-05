@@ -37,7 +37,7 @@ const Login: React.FC = () => {
     })
   };
 
-
+const removeToken = () => localStorage.removeItem("token") 
 
   return (
     <div style={{ margin: '0px auto', marginTop:'20vh', width: '20rem' }}>
@@ -64,12 +64,13 @@ const Login: React.FC = () => {
           placeholder="Password"
           />
       </Form.Item>
-
       <Form.Item>
         <Button loading={loading} style={{width: '100%'}} type="primary" htmlType="submit" className="login-form-button">
           Entrar
         </Button>
       </Form.Item>
+
+      <Button type='primary' onClick={removeToken}>Remover token</Button>
     </Form>
           </div>
   );
